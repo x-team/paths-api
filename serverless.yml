@@ -23,6 +23,13 @@ functions:
           path: paths
           method: post
           cors: true
+  delete:
+    handler: paths/delete.delete
+    events:
+      - http:
+          path: paths/{userId}/{id}
+          method: delete
+          cors: true
 resources:
   Resources:
     PathsDynamoDbTable:
