@@ -30,6 +30,13 @@ functions:
           path: paths/{userId}/{id}
           method: delete
           cors: true
+  update:
+    handler: paths/update.update
+    events:
+      - http:
+          path: paths/{userId}/{id}
+          method: put
+          cors: true
 resources:
   Resources:
     PathsDynamoDbTable:
