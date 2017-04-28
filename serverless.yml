@@ -5,6 +5,7 @@ provider:
   runtime: nodejs6.10
   environment:
     PATHS_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    GOALS_TABLE: ${self:service}-goals-${opt:stage, self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -15,6 +16,15 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.PATHS_TABLE}"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.GOALS_TABLE}"
 functions:
   create:
     handler: paths/create.create
@@ -50,6 +60,13 @@ functions:
           path: paths/{userId}
           method: get
           cors: true
+  goalCreate:
+    handler: paths/goals/create.create
+    events:
+      - http:
+          path: paths/{userId}/{id}/goals
+          method: post
+          cors: true
 resources:
   Resources:
     PathsDynamoDbTable:
@@ -74,3 +91,25 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.PATHS_TABLE}
+    GoalsDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: pathId
+            AttributeType: S
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: pathId
+            KeyType: HASH
+          -
+            AttributeName: id
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.GOALS_TABLE}
