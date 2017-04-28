@@ -30,6 +30,13 @@ functions:
           path: paths/{userId}/{id}
           method: delete
           cors: true
+  get:
+    handler: paths/get.get
+    events:
+      - http:
+          path: paths/{userId}/{id}
+          method: get
+          cors: true
   update:
     handler: paths/update.update
     events:
