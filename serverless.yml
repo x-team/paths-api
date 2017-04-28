@@ -36,6 +36,12 @@ functions:
       - http:
           path: paths/{userId}/{id}
           method: put
+  list:
+    handler: paths/list.list
+    events:
+      - http:
+          path: paths/{userId}
+          method: get
           cors: true
 resources:
   Resources:
