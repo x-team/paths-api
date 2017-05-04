@@ -23,7 +23,6 @@ module.exports.create = (event, context, callback) => {
       description: data.description,
       icon: data.icon,
       level: data.level,
-      order: data.order,
       dueDate: data.dueDate,
       createdAt: timestamp,
       updatedAt: timestamp,

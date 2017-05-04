@@ -67,6 +67,13 @@ functions:
           path: paths/{userId}/{id}/goals
           method: post
           cors: true
+  goalUpdate:
+    handler: paths/goals/update.update
+    events:
+      - http:
+          path: paths/{userId}/{id}/goals/{goalId}
+          method: put
+          cors: true
 resources:
   Resources:
     PathsDynamoDbTable:
