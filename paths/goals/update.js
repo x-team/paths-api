@@ -34,7 +34,7 @@ module.exports.update = (event, context, callback) => {
   dynamoDb.update(params, (error, result) => {
     if (error) {
       console.error(error);
-      callback(new Error('Couldn\'t update the path item.'));
+      callback(new Error('Couldn\'t update the goal item.'));
       return;
     }
 
