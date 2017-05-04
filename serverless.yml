@@ -81,6 +81,13 @@ functions:
           path: paths/{userId}/{id}/goals/{goalId}
           method: delete
           cors: true
+  goalsList:
+    handler: paths/goals/list.list
+    events:
+      - http:
+          path: paths/{userId}/{id}/goals
+          method: get
+          cors: true
 resources:
   Resources:
     PathsDynamoDbTable:
