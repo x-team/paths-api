@@ -112,6 +112,13 @@ functions:
           path: paths/{userId}/{pathId}/goals/{goalId}/steps
           method: get
           cors: true
+  stepUpdate:
+    handler: paths/steps/update.update
+    events:
+      - http:
+          path: paths/{userId}/{pathId}/goals/{goalId}/steps/{stepId}
+          method: put
+          cors: true
 resources:
   Resources:
     PathsDynamoDbTable:
