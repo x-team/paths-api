@@ -1,0 +1,19 @@
+language: node_js
+node_js: "6"
+cache: yarn
+
+before_install:
+  - npm install -g serverless
+
+script:
+  - serverless config credentials --provider aws --key $AWS_ACCESS_KEY_ID --secret $AWS_SECRET_ACCESS_KEY
+
+deploy:
+  - provider: script
+    script: serverless deploy --stage production --region us-west-2
+    on:
+      branch: master
+  - provider: script
+    script: serverless deploy --stage dev --region us-west-2
+    on:
+      branch: develop
