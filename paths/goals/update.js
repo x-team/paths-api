@@ -11,7 +11,7 @@ module.exports.update = (event, context, callback) => {
   const params = {
     TableName: process.env.GOALS_TABLE,
     Key: {
-      pathId: event.pathParameters.id,
+      pathId: event.pathParameters.pathId,
       id: event.pathParameters.goalId
     },
     ExpressionAttributeNames: {
