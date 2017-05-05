@@ -105,6 +105,13 @@ functions:
           path: paths/{userId}/{pathId}/goals/{goalId}/steps
           method: post
           cors: true
+  stepsList:
+    handler: paths/steps/list.list
+    events:
+      - http:
+          path: paths/{userId}/{pathId}/goals/{goalId}/steps
+          method: get
+          cors: true
 resources:
   Resources:
     PathsDynamoDbTable:
