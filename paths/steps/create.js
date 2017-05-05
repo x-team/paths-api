@@ -10,15 +10,15 @@ module.exports.create = (event, context, callback) => {
   const data = JSON.parse(event.body);
   if (typeof data.name !== 'string' || typeof data.description !== 'string') {
     console.error('Validation Failed');
-    callback(new Error('Couldn\'t create the goal item.'));
+    callback(new Error('Couldn\'t create the step item.'));
     return;
   }
 
   const params = {
-    TableName: process.env.GOALS_TABLE,
+    TableName: process.env.STEPS_TABLE,
     Item: {
       id: uuid.v1(),
-      pathId: event.pathParameters.pathId,
+      goalId: event.pathParameters.goalId,
       name: data.name,
       description: data.description,
       icon: data.icon,
@@ -33,7 +33,7 @@ module.exports.create = (event, context, callback) => {
   dynamoDb.put(params, (error, result) => {
     if (error) {
       console.error(error);
-      callback(new Error('Couldn\'t create the goal item.'));
+      callback(new Error('Couldn\'t create the step item.'));
       return;
     }
 

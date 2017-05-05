@@ -18,7 +18,7 @@ module.exports.update = (event, context, callback) => {
     TableName: process.env.PATHS_TABLE,
     Key: {
       userId: event.pathParameters.userId,
-      id: event.pathParameters.id,
+      id: event.pathParameters.pathId,
     },
     ExpressionAttributeNames: {
       '#path_name': 'name',

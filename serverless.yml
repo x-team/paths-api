@@ -6,6 +6,7 @@ provider:
   environment:
     PATHS_TABLE: ${self:service}-${opt:stage, self:provider.stage}
     GOALS_TABLE: ${self:service}-goals-${opt:stage, self:provider.stage}
+    STEPS_TABLE: ${self:service}-steps-${opt:stage, self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -25,6 +26,15 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.GOALS_TABLE}"
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.STEPS_TABLE}"
 functions:
   create:
     handler: paths/create.create
@@ -37,21 +47,21 @@ functions:
     handler: paths/delete.delete
     events:
       - http:
-          path: paths/{userId}/{id}
+          path: paths/{userId}/{pathId}
           method: delete
           cors: true
   get:
     handler: paths/get.get
     events:
       - http:
-          path: paths/{userId}/{id}
+          path: paths/{userId}/{pathId}
           method: get
           cors: true
   update:
     handler: paths/update.update
     events:
       - http:
-          path: paths/{userId}/{id}
+          path: paths/{userId}/{pathId}
           method: put
   list:
     handler: paths/list.list
@@ -64,29 +74,36 @@ functions:
     handler: paths/goals/create.create
     events:
       - http:
-          path: paths/{userId}/{id}/goals
+          path: paths/{userId}/{pathId}/goals
           method: post
           cors: true
   goalUpdate:
     handler: paths/goals/update.update
     events:
       - http:
-          path: paths/{userId}/{id}/goals/{goalId}
+          path: paths/{userId}/{pathId}/goals/{goalId}
           method: put
           cors: true
   goalDelete:
     handler: paths/goals/delete.delete
     events:
       - http:
-          path: paths/{userId}/{id}/goals/{goalId}
+          path: paths/{userId}/{pathId}/goals/{goalId}
           method: delete
           cors: true
   goalsList:
     handler: paths/goals/list.list
     events:
       - http:
-          path: paths/{userId}/{id}/goals
+          path: paths/{userId}/{pathId}/goals
           method: get
+          cors: true
+  stepCreate:
+    handler: paths/steps/create.create
+    events:
+      - http:
+          path: paths/{userId}/{pathId}/goals/{goalId}/steps
+          method: post
           cors: true
 resources:
   Resources:
@@ -134,3 +151,25 @@ resources:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
         TableName: ${self:provider.environment.GOALS_TABLE}
+    StepsDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: goalId
+            AttributeType: S
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: goalId
+            KeyType: HASH
+          -
+            AttributeName: id
+            KeyType: RANGE
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.STEPS_TABLE}

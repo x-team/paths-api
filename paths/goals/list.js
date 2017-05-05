@@ -9,7 +9,7 @@ module.exports.list = (event, context, callback) => {
     TableName: process.env.GOALS_TABLE,
     KeyConditionExpression: 'pathId = :pathId',
     ExpressionAttributeValues: {
-      ':pathId': event.pathParameters.id,
+      ':pathId': event.pathParameters.pathId,
     },
   };
 
