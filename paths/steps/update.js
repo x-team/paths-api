@@ -14,14 +14,14 @@ module.exports.update = (event, context, callback) => {
   }
 
   const params = {
-    TableName: process.env.GOALS_TABLE,
+    TableName: process.env.STEPS_TABLE,
     Key: {
-      pathId: event.pathParameters.pathId,
-      id: event.pathParameters.goalId
+      goalId: event.pathParameters.goalId,
+      id: event.pathParameters.stepId
     },
     ExpressionAttributeNames: {
-      '#goal_name': 'name',
-      '#goal_level': 'level'
+      '#step_name': 'name',
+      '#step_level': 'level'
     },
     ExpressionAttributeValues: {
       ':name': data.name,
@@ -33,14 +33,14 @@ module.exports.update = (event, context, callback) => {
       ':dueDate': data.dueDate,
       ':updatedAt': timestamp,
     },
-    UpdateExpression: 'SET #goal_name = :name, description = :description, icon = :icon, #goal_level = :level, achieved = :achieved, achievedDate = :achievedDate, dueDate = :dueDate, updatedAt = :updatedAt',
+    UpdateExpression: 'SET #step_name = :name, description = :description, icon = :icon, #step_level = :level, achieved = :achieved, achievedDate = :achievedDate, dueDate = :dueDate, updatedAt = :updatedAt',
     ReturnValues: 'ALL_NEW',
   };
 
   dynamoDb.update(params, (error, result) => {
     if (error) {
       console.error(error);
-      callback(new Error('Couldn\'t update the goal item.'));
+      callback(new Error('Couldn\'t update the step item.'));
       return;
     }
 
