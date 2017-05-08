@@ -23,6 +23,8 @@ module.exports.create = (event, context, callback) => {
       description: data.description,
       icon: data.icon,
       achieved: false,
+      achievedDate: data.achievedDate,
+      lastNotificationSent: data.lastNotificationSent,
       level: data.level,
       dueDate: data.dueDate,
       createdAt: timestamp,
