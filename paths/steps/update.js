@@ -30,10 +30,11 @@ module.exports.update = (event, context, callback) => {
       ':level': data.level,
       ':achieved': data.achieved,
       ':achievedDate': achievedDate,
+      ':lastNotificationSent': data.lastNotificationSent,
       ':dueDate': data.dueDate,
       ':updatedAt': timestamp,
     },
-    UpdateExpression: 'SET #step_name = :name, description = :description, icon = :icon, #step_level = :level, achieved = :achieved, achievedDate = :achievedDate, dueDate = :dueDate, updatedAt = :updatedAt',
+    UpdateExpression: 'SET #step_name = :name, description = :description, icon = :icon, #step_level = :level, achieved = :achieved, achievedDate = :achievedDate, dueDate = :dueDate, updatedAt = :updatedAt, lastNotificationSent = :lastNotificationSent',
     ReturnValues: 'ALL_NEW',
   };
 
