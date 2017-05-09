@@ -6,17 +6,17 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
 module.exports.list = (event, context, callback) => {
   const params = {
-    TableName: process.env.GOALS_TABLE,
-    KeyConditionExpression: 'pathId = :pathId',
+    TableName: process.env.STEPS_TABLE,
+    KeyConditionExpression: 'goalId = :goalId',
     ExpressionAttributeValues: {
-      ':pathId': event.pathParameters.pathId,
+      ':goalId': event.pathParameters.goalId,
     },
   };
 
   dynamoDb.query(params, (error, result) => {
     if (error) {
       console.error(error);
-      callback(new Error('Couldn\'t fetch the goals.'));
+      callback(new Error('Couldn\'t fetch the steps.'));
       return;
     }
 

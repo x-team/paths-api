@@ -8,33 +8,40 @@ module.exports.update = (event, context, callback) => {
   const timestamp = new Date().getTime();
   const data = JSON.parse(event.body);
 
-  if (typeof data.name !== 'string') {
-    console.error('Validation Failed');
-    callback(new Error('Couldn\'t update the path item.'));
-    return;
+  let achievedDate = null;
+  if (data.achieved) {
+    achievedDate = timestamp;
   }
 
   const params = {
-    TableName: process.env.PATHS_TABLE,
+    TableName: process.env.STEPS_TABLE,
     Key: {
-      userId: event.pathParameters.userId,
-      id: event.pathParameters.pathId,
+      goalId: event.pathParameters.goalId,
+      id: event.pathParameters.stepId
     },
     ExpressionAttributeNames: {
-      '#path_name': 'name',
+      '#step_name': 'name',
+      '#step_level': 'level'
     },
     ExpressionAttributeValues: {
       ':name': data.name,
+      ':description': data.description,
+      ':icon': data.icon,
+      ':level': data.level,
+      ':achieved': data.achieved,
+      ':achievedDate': achievedDate,
+      ':lastNotificationSent': data.lastNotificationSent,
+      ':dueDate': data.dueDate,
       ':updatedAt': timestamp,
     },
-    UpdateExpression: 'SET #path_name = :name, updatedAt = :updatedAt',
+    UpdateExpression: 'SET #step_name = :name, description = :description, icon = :icon, #step_level = :level, achieved = :achieved, achievedDate = :achievedDate, dueDate = :dueDate, updatedAt = :updatedAt, lastNotificationSent = :lastNotificationSent',
     ReturnValues: 'ALL_NEW',
   };
 
   dynamoDb.update(params, (error, result) => {
     if (error) {
       console.error(error);
-      callback(new Error('Couldn\'t update the path item.'));
+      callback(new Error('Couldn\'t update the step item.'));
       return;
     }
 
