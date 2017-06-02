@@ -21,21 +21,21 @@ module.exports.update = (event, context, callback) => {
     },
     ExpressionAttributeNames: {
       '#goal_name': 'name',
-      '#goal_level': 'level'
+      '#goal_level': 'level',
+      '#goal_status': 'status',
     },
     ExpressionAttributeValues: {
       ':name': data.name,
       ':description': data.description,
       ':icon': data.icon,
       ':level': data.level,
-      ':lastNotificationSent': data.lastNotificationSent
       ':achieved': data.achieved,
       ':achievedDate': achievedDate,
       ':dueDate': data.dueDate,
       ':status': data.status,
       ':updatedAt': timestamp,
     },
-    UpdateExpression: 'SET #goal_name = :name, description = :description, icon = :icon, #goal_level = :level, achieved = :achieved, achievedDate = :achievedDate, dueDate = :dueDate, updatedAt = :updatedAt, lastNotificationSent = :lastNotificationSent, status = :status',
+    UpdateExpression: 'SET #goal_name = :name, description = :description, icon = :icon, #goal_level = :level, achieved = :achieved, achievedDate = :achievedDate, dueDate = :dueDate, updatedAt = :updatedAt, #goal_status = :status',
     ReturnValues: 'ALL_NEW',
   };
 
