@@ -1,6 +1,7 @@
 'use strict';
 
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const response = require('./utils/response');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -16,18 +17,10 @@ module.exports.delete = (event, context, callback) => {
   dynamoDb.delete(params, (error) => {
     if (error) {
       console.error(error);
-      callback(new Error('Couldn\'t remove the path item.'));
+      callback(null, response.BadRequest('Couldn\'t remove the path item.'));
       return;
     }
 
-    const response = {
-      statusCode: 200,
-      headers: {
-        "Access-Control-Allow-Origin" : "*",
-        "Access-Control-Allow-Credentials" : true
-      },
-      body: JSON.stringify({}),
-    };
-    callback(null, response);
+    callback(null, response.OK({}));
   });
 };

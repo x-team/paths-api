@@ -1,6 +1,7 @@
 'use strict';
 
 const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const response = require('../utils/response');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
 
@@ -42,19 +43,10 @@ module.exports.update = (event, context, callback) => {
   dynamoDb.update(params, (error, result) => {
     if (error) {
       console.error(error);
-      callback(new Error('Couldn\'t update the goal item.'));
+      callback(null, response.BadRequest('Couldn\'t update the goal item.'));
       return;
     }
 
-    const response = {
-      statusCode: 200,
-      headers: {
-        "Access-Control-Allow-Origin" : "*",
-        "Access-Control-Allow-Credentials" : true
-      },
-      body: JSON.stringify(result.Attributes),
-    };
-
-    callback(null, response);
+    callback(null, response.OK(result.Attributes));
   });
 };

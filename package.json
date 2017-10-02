@@ -6,6 +6,7 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
+    "aws-sdk": "^2.125.0",
     "concurrently": "^3.5.0",
     "nodemon": "^1.12.1",
     "serverless-dynamodb-local": "^0.2.25",
