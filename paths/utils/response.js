@@ -4,7 +4,7 @@ const createCorsResponse = (statusCode, body) => ({
     "Access-Control-Allow-Origin" : "*",
     "Access-Control-Allow-Credentials" : true
   },
-  body: JSON.stringify(body),
+  body: JSON.stringify(typeof body === 'string' ? ({ message: body }) : body),
 });
 
 const OK = (body) => createCorsResponse(200, body);
