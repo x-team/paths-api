@@ -11,6 +11,7 @@ Maintained by the [developers at x-team](https://www.x-team.com) | [developer bl
 git clone https://github.com/karolsojko/paths-api
 cd paths-api
 yarn
+npm run prepare
 ```
 
 ## Offline development
@@ -18,6 +19,10 @@ yarn
 ```
 npm run dev
 ```
+
+This command will create local DynamoDB instance and start API on port 1337.
+
+Any changes to source files will restart server thanks to Nodemon.
 
 ## Deployment
 
