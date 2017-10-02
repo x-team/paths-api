@@ -13,7 +13,7 @@ Maintained by the [developers at x-team](https://www.x-team.com) | [developer bl
 ## Installation
 
 ```
-git clone https://github.com/karolsojko/paths-api
+git clone https://github.com/x-team/paths-api
 cd paths-api
 yarn
 npm run prepare
