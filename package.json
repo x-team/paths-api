@@ -6,16 +6,24 @@
     "uuid": "^3.0.1"
   },
   "devDependencies": {
-    "aws-sdk": "^2.125.0"
+    "aws-sdk": "^2.125.0",
+    "concurrently": "^3.5.0",
+    "nodemon": "^1.12.1",
+    "serverless-dynamodb-local": "^0.2.25",
+    "serverless-offline": "^3.16.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "offline": "serverless offline",
+    "prepare": "serverless dynamodb install",
+    "local-dynamodb": "serverless dynamodb start --migrate",
+    "offline-watch": "nodemon --exec npm run offline",
+    "dev": "concurrently --names \"API,DYNAMODB\" -c \"bgBlue.bold,bgMagenta.bold\" \"npm run offline-watch\" \"npm run local-dynamodb\" --kill-others"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/x-team/paths-api.git"
   },
-  "author": "",
+  "author": "Karol Sojko",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/x-team/paths-api/issues"

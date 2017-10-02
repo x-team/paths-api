@@ -16,6 +16,11 @@ module.exports.create = (event, context, callback) => {
     return;
   }
 
+  let status = 'new';
+  if (data.status) {
+    status = data.status;
+  }
+
   const params = {
     TableName: process.env.STEPS_TABLE,
     Item: {
@@ -28,6 +33,7 @@ module.exports.create = (event, context, callback) => {
       achievedDate: data.achievedDate,
       lastNotificationSent: data.lastNotificationSent,
       level: data.level,
+      status: status,
       dueDate: data.dueDate,
       createdAt: timestamp,
       updatedAt: timestamp,
