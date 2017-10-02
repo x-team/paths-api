@@ -1,5 +1,13 @@
 service: paths-api
 
+plugins:
+  - serverless-offline
+  - serverless-dynamodb-local
+
+custom:
+  serverless-offline:
+    port: 1337
+
 provider:
   name: aws
   runtime: nodejs6.10
