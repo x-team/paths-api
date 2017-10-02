@@ -5,6 +5,11 @@
 
 Maintained by the [developers at x-team](https://www.x-team.com) | [developer blog](https://www.x-team.com/blog/)
 
+## Prerequisites
+
+[Yarn](https://yarnpkg.com/en/)
+[Serverless Framework](https://serverless.com/framework/)
+
 ## Installation
 
 ```
