@@ -32,13 +32,10 @@ module.exports.update = (event, context, callback) => {
     ReturnValues: 'ALL_NEW',
   };
 
-  dynamoDb.update(params, (error, result) => {
-    if (error) {
-      console.error(error);
-      callback(null, response.BadRequest('Couldn\'t update the path item.'));
-      return;
-    }
-
+  dynamoDb.update(params).promise().then((result) => {
     callback(null, response.OK(result.Attributes));
+  }).catch((error) => {
+    console.error(error);
+    callback(null, response.BadRequest('Couldn\'t update the path item.'));
   });
 };

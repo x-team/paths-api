@@ -14,13 +14,10 @@ module.exports.list = (event, context, callback) => {
     },
   };
 
-  dynamoDb.query(params, (error, result) => {
-    if (error) {
-      console.error(error);
-      callback(null, response.BadRequest('Couldn\'t fetch the steps.'));
-      return;
-    }
-
+  dynamoDb.query(params).promise().then((result) => {
     callback(null, response.OK(result.Items));
+  }).catch((error) => {
+    console.error(error);
+    callback(null, response.BadRequest('Couldn\'t fetch the steps.'));
   });
 };
