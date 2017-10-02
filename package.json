@@ -5,7 +5,9 @@
   "dependencies": {
     "uuid": "^3.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "aws-sdk": "^2.125.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
