@@ -1,7 +1,7 @@
 'use strict';
 
 const uuid = require('uuid');
-const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const AWS = require('aws-sdk');
 const response = require('../utils/response');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
@@ -39,13 +39,10 @@ module.exports.create = (event, context, callback) => {
     },
   };
 
-  dynamoDb.put(params, (error, result) => {
-    if (error) {
-      console.error(error);
-      callback(null, response.BadRequest('Couldn\'t create the goal item.'));
-      return;
-    }
-
+  dynamoDb.put(params).promise().then((result) => {
     callback(null, response.OK(params.Item));
+  }).catch((error) => {
+    console.error(error);
+    callback(null, response.BadRequest('Couldn\'t create the goal item.'));
   });
 };

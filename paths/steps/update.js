@@ -1,6 +1,6 @@
 'use strict';
 
-const AWS = require('aws-sdk'); // eslint-disable-line import/no-extraneous-dependencies
+const AWS = require('aws-sdk');
 const response = require('../utils/response');
 
 const dynamoDb = new AWS.DynamoDB.DocumentClient();
@@ -40,13 +40,10 @@ module.exports.update = (event, context, callback) => {
     ReturnValues: 'ALL_NEW',
   };
 
-  dynamoDb.update(params, (error, result) => {
-    if (error) {
-      console.error(error);
-      callback(null, response.BadRequest('Couldn\'t update the step item.'));
-      return;
-    }
-
+  dynamoDb.update(params).promise().then((result) => {
     callback(null, response.OK(result.Attributes));
+  }).catch((error) => {
+    console.error(error);
+    callback(null, response.BadRequest('Couldn\'t update the step item.'));
   });
 };

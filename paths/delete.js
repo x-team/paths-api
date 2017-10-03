@@ -14,13 +14,10 @@ module.exports.delete = (event, context, callback) => {
     },
   };
 
-  dynamoDb.delete(params, (error) => {
-    if (error) {
-      console.error(error);
-      callback(null, response.BadRequest('Couldn\'t remove the path item.'));
-      return;
-    }
-
+  dynamoDb.delete(params).promise().then(() => {
     callback(null, response.OK({}));
+  }).catch((error) => {
+    console.error(error);
+    callback(null, response.BadRequest('Couldn\'t remove the path item.'));
   });
 };
