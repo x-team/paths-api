@@ -1,9 +1,7 @@
 'use strict';
 
-const AWS = require('aws-sdk');
 const response = require('../utils/response');
-
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const dynamoDb = require('../../services/dynamodb')();
 
 module.exports.delete = (event, context, callback) => {
   const params = {

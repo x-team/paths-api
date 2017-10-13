@@ -1,10 +1,8 @@
 'use strict';
 
 const uuid = require('uuid');
-const AWS = require('aws-sdk');
 const response = require('./utils/response');
-
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
+const dynamoDb = require('../services/dynamodb')();
 
 module.exports.create = (event, context, callback) => {
   const timestamp = new Date().getTime();
