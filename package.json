@@ -13,7 +13,7 @@
     "serverless-offline": "^3.16.0"
   },
   "scripts": {
-    "offline": "LOCAL=1 serverless offline",
+    "offline": "serverless offline",
     "prepare": "serverless dynamodb install",
     "local-dynamodb": "serverless dynamodb start --migrate",
     "offline-watch": "nodemon --exec npm run offline",
